@@ -12,18 +12,24 @@ private:
     void RotateBlock();
     void LockBlock();
     bool ValidBlock();
-    bool gameOver;
-
-public:
-    Game();
+    void MoveLeft();
+    void MoveRight();
+    void Reset();
+    void updateScore(int linesCleared, int movedownPoints);
+    bool IsBlockOut();
     Grid grid;
     Block GetRandomBlock();
     std::vector<Block> GetAllBlocks();
+    Sound rotateSound;
+    Sound clearSound;
+
+public:
+    Game();
+    ~Game();
     void Draw();
     void handleInput();
-    void MoveLeft();
-    void MoveRight();
     void MoveDown();
-    bool IsBlockOut();
-    void Reset();
+    bool gameOver;
+    int score;
+    Music music;
 };

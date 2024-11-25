@@ -22,5 +22,5 @@ public:
     bool IsCellOut(int row, int col);
     bool IsCellCollision(int row);
     bool IsEmptyCell(int row, int column);
-    void CheckFullRow();
+    int CheckFullRow();
 };
