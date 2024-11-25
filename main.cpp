@@ -28,7 +28,7 @@ int main()
         BeginDrawing();
         ClearBackground(darkBlue);
         game.Draw();
-        if (EventTriggered(0.2) == true)
+        if (EventTriggered(0.02) == true)
         {
             game.MoveDown();
         }

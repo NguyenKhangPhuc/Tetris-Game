@@ -12,6 +12,7 @@ private:
     void RotateBlock();
     void LockBlock();
     bool ValidBlock();
+    bool gameOver;
 
 public:
     Game();
@@ -24,4 +25,5 @@ public:
     void MoveRight();
     void MoveDown();
     bool IsBlockOut();
+    void Reset();
 };

@@ -8,6 +8,7 @@ Game::Game()
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
+    gameOver = false;
 }
 
 Block Game::GetRandomBlock()
@@ -36,6 +37,11 @@ void Game::Draw()
 void Game::handleInput()
 {
     int keyPressed = GetKeyPressed();
+    if (gameOver && keyPressed != 0)
+    {
+        gameOver = false;
+        Reset();
+    }
     switch (keyPressed)
     {
     case KEY_LEFT:
@@ -56,29 +62,38 @@ void Game::handleInput()
 
 void Game::MoveLeft()
 {
-    currentBlock.Move(0, -1);
-    if (IsBlockOut() == true || ValidBlock() == false)
+    if (gameOver == false)
     {
-        currentBlock.Move(0, 1);
+        currentBlock.Move(0, -1);
+        if (IsBlockOut() == true || ValidBlock() == false)
+        {
+            currentBlock.Move(0, 1);
+        }
     }
 }
 
 void Game::MoveRight()
 {
-    currentBlock.Move(0, 1);
-    if (IsBlockOut() == true || ValidBlock() == false)
+    if (gameOver == false)
     {
-        currentBlock.Move(0, -1);
+        currentBlock.Move(0, 1);
+        if (IsBlockOut() == true || ValidBlock() == false)
+        {
+            currentBlock.Move(0, -1);
+        }
     }
 }
 
 void Game::MoveDown()
 {
-    currentBlock.Move(1, 0);
-    if (IsBlockOut() == true || ValidBlock() == false)
+    if (gameOver == false)
     {
-        currentBlock.Move(-1, 0);
-        LockBlock();
+        currentBlock.Move(1, 0);
+        if (IsBlockOut() == true || ValidBlock() == false)
+        {
+            currentBlock.Move(-1, 0);
+            LockBlock();
+        }
     }
 }
 
@@ -95,12 +110,23 @@ bool Game::IsBlockOut()
     return false;
 }
 
+void Game::Reset()
+{
+    grid.Initialize();
+    blocks = GetAllBlocks();
+    currentBlock = GetRandomBlock();
+    nextBlock = GetRandomBlock();
+}
+
 void Game::RotateBlock()
 {
-    currentBlock.Rotate();
-    if (IsBlockOut())
+    if (gameOver == false)
     {
-        currentBlock.UndoRotate();
+        currentBlock.Rotate();
+        if (IsBlockOut())
+        {
+            currentBlock.UndoRotate();
+        }
     }
 }
 
@@ -112,6 +138,10 @@ void Game::LockBlock()
         grid.grid[item.row][item.column] = currentBlock.id;
     }
     currentBlock = nextBlock;
+    if (ValidBlock() == false)
+    {
+        gameOver = true;
+    }
     nextBlock = GetRandomBlock();
     grid.CheckFullRow();
 }
