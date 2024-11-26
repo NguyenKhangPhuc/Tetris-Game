@@ -151,7 +151,7 @@ void Game::RotateBlock()
     if (gameOver == false)
     {
         currentBlock.Rotate();
-        if (IsBlockOut())
+        if (IsBlockOut() || ValidBlock() == false)
         {
             currentBlock.UndoRotate();
         }
